@@ -1,0 +1,24 @@
+{
+    "common": {
+      "version": "Versão",
+      "name":"Cartão para Mesas Flexispot",
+      "description": "Cartão para controlar a altura da mesa",
+      "invalid_configuration": "Configuração inválida",
+      "desk_and_height_required": "Mesa e sensor de altura são obrigatórios",
+      "min_and_max_height_required": "As definições de `min_height` e `max_height` são obrigatórias"
+    },
+    "editor": {
+      "name": "Nome (Opcional)",
+      "desk":"Entidade da Mesa (Obrigatório)",
+      "height_sensor":"Sensor de Altura (Required)",
+      "connection_sensor":"Sensor de Conexão (Required)",
+      "moving_sensor":"Sensor de Movimento (Required)",
+      "min_height":"Altura Mínima (Required)",
+      "max_height":"Altura Máxima (Required)",
+      "presets":"Memórias"
+    },
+    "status": {
+      "connected": "Ligada",
+      "disconnected": "Desligada"
+    }
+  }

@@ -42,7 +42,7 @@ export class LinakDeskCard extends LitElement {
       height_sensor,
       moving_sensor,
       connection_sensor,
-      min_height: 62,
+      min_height: 72.3,
       max_height: 127,
       presets: []
     };
@@ -68,7 +68,7 @@ export class LinakDeskCard extends LitElement {
   }
 
   get height(): number {
-    return this.relativeHeight + this.config.min_height;
+    return this.relativeHeight;
   }
 
   get relativeHeight(): number {
@@ -209,7 +209,6 @@ export class LinakDeskCard extends LitElement {
         overflow: hidden;
       }
       .preview {
-        background: linear-gradient(to bottom, var(--primary-color), var(--dark-primary-color));
         overflow: hidden;
         position: relative;
         min-height: 365px;
@@ -224,7 +223,7 @@ export class LinakDeskCard extends LitElement {
         position: absolute;
         display: flex;
         flex-direction: column;
-        left: 20px;
+        right: 20px;
         bottom: 12px;
         border-radius: 35px;
         width: 50px;
@@ -247,8 +246,8 @@ export class LinakDeskCard extends LitElement {
       }
       .height {
         position: absolute;
-        left: 30px;
-        top: 60px;
+        right: 100px;
+        top: 36px;
         font-size: 32px;
         font-weight: bold;
         transition: all 0.2s linear;
