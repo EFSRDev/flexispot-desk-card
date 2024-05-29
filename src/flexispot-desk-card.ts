@@ -10,7 +10,7 @@ import {
   internalProperty,
 } from 'lit-element';
 import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import type { LinakDeskCardConfig } from './types';
+import type { FlexispotDeskCardConfig } from './types';
 import { localize } from './localize/localize';
 import { HassEntity } from 'home-assistant-js-websocket';
 import tableBottomImg from './table_bottom.png';
@@ -21,22 +21,22 @@ import './editor';
 window.customCards = window.customCards || [];
 window.customCards.push({
   preview: true,
-  type: 'linak-desk-card',
+  type: 'flexispot-desk-card',
   name: localize('common.name'),
   description: localize('common.description'),
 });
 
-@customElement('linak-desk-card')
-export class LinakDeskCard extends LitElement {
+@customElement('flexispot-desk-card')
+export class FlexispotDeskCard extends LitElement {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    return document.createElement('linak-desk-card-editor');
+    return document.createElement('flexispot-desk-card-editor');
   }
 
-  public static getStubConfig(_: HomeAssistant, entities: string[]): Partial<LinakDeskCardConfig> {
+  public static getStubConfig(_: HomeAssistant, entities: string[]): Partial<FlexispotDeskCardConfig> {
       const [desk] = entities.filter((eid) => eid.substr(0, eid.indexOf('.')) === 'cover' && eid.includes('desk'));
       const [height_sensor] = entities.filter((eid) => eid.substr(0, eid.indexOf('.')) === 'sensor' && eid.includes('desk_height'));
       const [moving_sensor] = entities.filter((eid) => eid.substr(0, eid.indexOf('.')) === 'binary_sensor' && eid.includes('desk_moving'));
-      const [connection_sensor] = entities.filter((eid) => eid.substr(0, eid.indexOf('.')) === 'binary_sensor' && eid.includes('desk_connection'));
+      const [connection_sensor] = entities.filter((eid) => eid.substr(0, eid.indexOf('.')) === 'binary_sensor' && (eid.includes('desk_connection') ?? eid.includes('desk_status')));
     return {
       desk,
       height_sensor,
@@ -49,9 +49,9 @@ export class LinakDeskCard extends LitElement {
   }
 
   @property({ attribute: false }) public hass!: HomeAssistant;
-  @internalProperty() private config!: LinakDeskCardConfig;
+  @internalProperty() private config!: FlexispotDeskCardConfig;
 
-  public setConfig(config: LinakDeskCardConfig): void {
+  public setConfig(config: FlexispotDeskCardConfig): void {
     if (!config.desk || !config.height_sensor) {
       throw new Error(localize('common.desk_and_height_required'));
     }
@@ -130,6 +130,10 @@ export class LinakDeskCard extends LitElement {
                   @mouseup='${this.stop}'>
               <ha-icon icon="mdi:chevron-up"></ha-icon>
             </div>
+            <div class="height">
+              ${this.height}
+              <span>cm</span>
+            </div>
             <div class="knob-button" 
                   @touchstart=${this.goDown} 
                   @mousedown=${this.goDown} 
@@ -166,10 +170,11 @@ export class LinakDeskCard extends LitElement {
       return;
     }
 
-    const travelDist = this.config.max_height - this.config.min_height;
+    const travelDist = this.config.max_height - this.config.min_height; // 54
     const positionInPercent = Math.round(((target - this.config.min_height) / travelDist) * 100);
 
     if (Number.isInteger(positionInPercent)) {
+      this.callService('set_cover_position', { position: positionInPercent });
       this.callService('set_cover_position', { position: positionInPercent });
     }
   }
@@ -226,9 +231,9 @@ export class LinakDeskCard extends LitElement {
         right: 20px;
         bottom: 12px;
         border-radius: 35px;
-        width: 50px;
+        width: 240px;
         overflow: hidden;
-        height: 120px;
+        height: 50px;
         box-shadow: 0px 0px 36px darkslategrey;
       }
       .preview .knob .knob-button {
@@ -245,12 +250,13 @@ export class LinakDeskCard extends LitElement {
         background: rgba(0, 0, 0, 0.06);
       }
       .height {
-        position: absolute;
-        right: 100px;
-        top: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-size: 32px;
         font-weight: bold;
         transition: all 0.2s linear;
+        color: var(--primary-color);
       }
       .height span {
         opacity: 0.6;

@@ -9,16 +9,16 @@ import {
   internalProperty,
 } from 'lit-element';
 import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import { LinakDeskCardConfig } from './types';
+import { FlexispotDeskCardConfig } from './types';
 import { localize } from './localize/localize';
 @customElement('linak-desk-card-editor')
 export class LinakDeskCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
-  @internalProperty() private _config!: LinakDeskCardConfig;
+  @internalProperty() private _config!: FlexispotDeskCardConfig;
   @internalProperty() private _helpers?: any;
   private _initialized = false;
 
-  public setConfig(config: LinakDeskCardConfig): void {
+  public setConfig(config: FlexispotDeskCardConfig): void {
     this._config = config;
 
     this.loadCardHelpers();
