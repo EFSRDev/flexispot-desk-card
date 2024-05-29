@@ -11,8 +11,8 @@
     "flexispot-desk-card"
   ],
   "module": "dist/flexispot-desk-card.js",
-  "repository": "git@github.com:IhorSyerkov/linak-desk-card.git",
-  "author": "Ihor Syerkov <serkov.ihor@gmail.com>",
+  "repository": "git@github.com:EFSRDev/flexispot-desk-card.git",
+  "author": "ERSRDev <eduardo.ribeiro@outlook.pt>",
   "license": "MIT",
   "dependencies": {
     "custom-card-helpers": "^1.6.8",
