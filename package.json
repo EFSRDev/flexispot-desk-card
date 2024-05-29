@@ -49,6 +49,7 @@
     "lint": "eslint src/*.ts"
   },
   "release": {
+    "branches": ["main", "next"],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
